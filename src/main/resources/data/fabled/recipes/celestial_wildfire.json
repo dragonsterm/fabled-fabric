@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    " N ",
+    " H "
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:nether_star"
+    },
+    "H": {
+      "item": "fabled:wither_handle"
+    }
+  },
+  "result": {
+    "item": "fabled:celestial_wildfire",
+    "count": 1
+  }
+}
