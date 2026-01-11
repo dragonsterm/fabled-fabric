@@ -3,9 +3,9 @@
   "item.fabled.celestial_wildfire": "Celestial Wildfire",
   "itemgroup.fabled": "Fabled Items",
   "tooltip.fabled.wither_handle": "A handle that's pulsing with ancient powers",
-  "tooltip.fabled.celestial_wildfire.line1": "Ability: Nether Implosion",
+  "tooltip.fabled.celestial_wildfire.quote": "\"The countless broken stars has reforged in a single blade despite it one sigularity its still shatter\"",
+  "tooltip.fabled.celestial_wildfire.ability": " Nether Implosion",
   "tooltip.fabled.celestial_wildfire.line2": "Teleport 8 blocks forward",
   "tooltip.fabled.celestial_wildfire.line3": "Deal explosive damage to surrounding enemies",
-  "tooltip.fabled.celestial_wildfire.line4": "Grants Regeneration II & Absorption II",
-  "tooltip.fabled.celestial_wildfire.line5": "Right-click to activate ability"
+  "tooltip.fabled.celestial_wildfire.line4": "Grants Regeneration II & Absorption II"
 }

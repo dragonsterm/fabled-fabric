@@ -4,6 +4,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -32,25 +33,40 @@ public class CelestialWildfireItem extends SwordItem {
     
     private static final int TELEPORT_DISTANCE = 8;
     private static final double EXPLOSION_RADIUS = 5.0;
-    private static final float EXPLOSION_DAMAGE = 85.0f;
+    private static final float EXPLOSION_DAMAGE = 50.0f;
     
     public CelestialWildfireItem(Properties properties) {
         super(Tiers.NETHERITE, 4, -2.4f, properties.durability(2031));
     }
     
-    @Override
+     @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line1")
-            .withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+        tooltipComponents.add(Component.literal("\"The countless broken stars has")
+            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("reforged in a single blade despite")
+            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("it one singularity its still shatter\"")
+            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+        
+        tooltipComponents.add(Component.literal(""));
+        
+        Component icon = Component.literal("\uE000")
+            .withStyle(style -> style.withFont(new ResourceLocation("fabled", "rightclickicons")));
+        
+        Component abilityName = Component.translatable("tooltip.fabled.celestial_wildfire.ability")
+            .withStyle(ChatFormatting.RED, ChatFormatting.BOLD);
+        
+        tooltipComponents.add(Component.literal("").append(icon).append(abilityName));
+        
         tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line2")
             .withStyle(ChatFormatting.GRAY));
         tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line3")
             .withStyle(ChatFormatting.GRAY));
         tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line4")
             .withStyle(ChatFormatting.GRAY));
+
         tooltipComponents.add(Component.literal(""));
-        tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line5")
-            .withStyle(ChatFormatting.YELLOW, ChatFormatting.ITALIC));
+
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
     }
     
@@ -176,12 +192,7 @@ public class CelestialWildfireItem extends SwordItem {
             if (entity instanceof LivingEntity livingEntity) {
                 double distance = entity.distanceTo(player);
                 if (distance <= EXPLOSION_RADIUS) {
-                    // (closer = more damage)
-                    float damage = (float) (EXPLOSION_DAMAGE * (1.0 - (distance / EXPLOSION_RADIUS)));
-                    livingEntity.hurt(level.damageSources().explosion(player, player), damage);
-                    // Knockback effect
-                    Vec3 knockback = entity.position().subtract(center).normalize().scale(1.5);
-                    entity.setDeltaMovement(entity.getDeltaMovement().add(knockback.x, 0.5, knockback.z));
+                    livingEntity.hurt(level.damageSources().explosion(player, player), EXPLOSION_DAMAGE);
                 }
             }
         }
