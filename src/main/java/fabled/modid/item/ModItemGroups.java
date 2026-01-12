@@ -20,6 +20,7 @@ public class ModItemGroups {
             .displayItems((displayContext, entries) -> {
                 entries.accept(ModItems.WITHER_HANDLE);
                 entries.accept(ModItems.ENTROPYS_EDGE);
+                entries.accept(ModItems.STAR_SOUL);
             })
             .build()
     );
