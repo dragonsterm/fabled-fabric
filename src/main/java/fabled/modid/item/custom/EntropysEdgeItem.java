@@ -99,37 +99,37 @@ public class EntropysEdgeItem extends SwordItem {
     
                 teleportPos = targetPos;
             }
-            
+
             // Find safe position 
             Vec3 safePos = findSafePosition(level, teleportPos);
-            
+
             // Teleport the player
             player.teleportTo(safePos.x, safePos.y, safePos.z);
-            
+
             // Reset fall distance
             player.fallDistance = 0.0f;
-            
+
             // Play teleport sound
             level.playSound(null, safePos.x, safePos.y, safePos.z,
                 SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
-            
-            // Spawn particles 
+
+            // Spawn particles
             if (level instanceof ServerLevel serverLevel) {
                 spawnTeleportParticles(serverLevel, safePos.x, safePos.y + 1, safePos.z);
             }
-            
+
             // Create explosion
             createExplosion(level, player);
-            
+
             // Apply effect
-            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1)); // 10 seconds, level 2
-            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 400, 1)); // 20 seconds, level 2
-            
+            player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 200, 1));
+            player.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 400, 1));
+
             itemStack.hurtAndBreak(1, player, (p) -> p.broadcastBreakEvent(hand));
-            
-            return InteractionResultHolder.success(itemStack);
+
+            return InteractionResultHolder.consume(itemStack);
         }
-        
+
         return InteractionResultHolder.pass(itemStack);
     }
     
@@ -141,7 +141,7 @@ public class EntropysEdgeItem extends SwordItem {
         if (isSafePosition(level, feetBlockPos)) {
             return feetPos;
         }
-        
+
         for (int i = 1; i <= 5; i++) {
             BlockPos below = feetBlockPos.below(i);
             if (level.getBlockState(below).isSolid()) {
@@ -171,10 +171,25 @@ public class EntropysEdgeItem extends SwordItem {
         }
         return feetPos;
     }
-    
+
     private boolean isSafePosition(Level level, BlockPos pos) {
-        return !level.getBlockState(pos).isSolid() && 
-               !level.getBlockState(pos.above()).isSolid();
+        if (level.getBlockState(pos).isSolid() || level.getBlockState(pos.above()).isSolid()) {
+            return false;
+        }
+        BlockPos below = pos.below();
+        if (!level.getBlockState(below).isSolid()) {
+            boolean hasSolidBlock = false;
+            for (int i = 1; i <= 3; i++) {
+                if (level.getBlockState(pos.below(i)).isSolid()) {
+                    hasSolidBlock = true;
+                    break;
+                }
+            }
+            if (!hasSolidBlock) {
+                return false;
+            }
+        }
+        return true;
     }
     
     private void createExplosion(Level level, Player player) {
@@ -185,7 +200,6 @@ public class EntropysEdgeItem extends SwordItem {
         List<Entity> entities = level.getEntities(player, area);
         
         for (Entity entity : entities) {
-            // Skip the player who used the sword
             if (entity == player) {
                 continue;
             }
