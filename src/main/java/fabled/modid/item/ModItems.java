@@ -1,7 +1,7 @@
 package fabled.modid.item;
 
 import fabled.modid.Fabled;
-import fabled.modid.item.custom.CelestialWildfireItem;
+import fabled.modid.item.custom.EntropysEdgeItem;
 import fabled.modid.item.custom.WitherHandleItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.Registry;
@@ -14,8 +14,8 @@ public class ModItems {
     public static final Item WITHER_HANDLE = registerItem("wither_handle", 
         new WitherHandleItem(new FabricItemSettings()));
     
-    public static final Item CELESTIAL_WILDFIRE = registerItem("celestial_wildfire",
-        new CelestialWildfireItem(new FabricItemSettings().stacksTo(1)));
+    public static final Item ENTROPYS_EDGE = registerItem("entropys_edge",
+        new EntropysEdgeItem(new FabricItemSettings().stacksTo(1)));
     
     private static Item registerItem(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, 

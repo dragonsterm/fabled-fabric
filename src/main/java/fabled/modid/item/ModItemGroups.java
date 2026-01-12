@@ -16,10 +16,10 @@ public class ModItemGroups {
         new ResourceLocation(Fabled.MOD_ID, "fabled"),
         FabricItemGroup.builder()
             .title(Component.translatable("itemgroup.fabled"))
-            .icon(() -> new ItemStack(ModItems.CELESTIAL_WILDFIRE))
+            .icon(() -> new ItemStack(ModItems.ENTROPYS_EDGE))
             .displayItems((displayContext, entries) -> {
                 entries.accept(ModItems.WITHER_HANDLE);
-                entries.accept(ModItems.CELESTIAL_WILDFIRE);
+                entries.accept(ModItems.ENTROPYS_EDGE);
             })
             .build()
     );

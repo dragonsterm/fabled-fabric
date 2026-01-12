@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -29,41 +27,44 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 
-public class CelestialWildfireItem extends SwordItem {
+public class EntropysEdgeItem extends SwordItem {
     
     private static final int TELEPORT_DISTANCE = 8;
     private static final double EXPLOSION_RADIUS = 5.0;
     private static final float EXPLOSION_DAMAGE = 50.0f;
     
-    public CelestialWildfireItem(Properties properties) {
-        super(Tiers.NETHERITE, 4, -2.4f, properties.durability(2031));
+    public EntropysEdgeItem(Properties properties) {
+        super(new EntropysEdgeTier(), 0, -2.0f, properties);
     }
     
      @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.literal("\"The countless broken stars has")
-            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
-        tooltipComponents.add(Component.literal("reforged in a single blade despite")
-            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
-        tooltipComponents.add(Component.literal("it one singularity its still shatter\"")
-            .withStyle(ChatFormatting.RED, ChatFormatting.ITALIC));
+
+        tooltipComponents.add(Component.literal(" "));
+
+        tooltipComponents.add(Component.literal("\"They say the Void crushed the stars into this jagged form")
+            .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("It vibrates with a violent instability, held together not by steel,")
+            .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("but by the gravitational pull of its own destruction.\"")
+            .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
         
         tooltipComponents.add(Component.literal(""));
         
         Component icon = Component.literal("\uE000")
             .withStyle(style -> style.withFont(new ResourceLocation("fabled", "rightclickicons")));
         
-        Component abilityName = Component.translatable("tooltip.fabled.celestial_wildfire.ability")
-            .withStyle(ChatFormatting.RED, ChatFormatting.BOLD);
+        Component abilityName = Component.translatable("tooltip.fabled.entropys_edge.ability")
+            .withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD);
         
         tooltipComponents.add(Component.literal("").append(icon).append(abilityName));
         
-        tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line2")
-            .withStyle(ChatFormatting.GRAY));
-        tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line3")
-            .withStyle(ChatFormatting.GRAY));
-        tooltipComponents.add(Component.translatable("tooltip.fabled.celestial_wildfire.line4")
-            .withStyle(ChatFormatting.GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line2")
+            .withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line3")
+            .withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line4")
+            .withStyle(ChatFormatting.DARK_GRAY));
 
         tooltipComponents.add(Component.literal(""));
 
@@ -226,5 +227,9 @@ public class CelestialWildfireItem extends SwordItem {
         }
     
         level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, x, y + 1, z, 1, 0, 0, 0, 0);
+    }
+    @Override
+    public Component getName(ItemStack stack) {
+        return  Component.translatable(this.getDescriptionId(stack)).withStyle(ChatFormatting.YELLOW);
     }
 }

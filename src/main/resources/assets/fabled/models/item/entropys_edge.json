@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "fabled:item/celestial_wildfire"
+    "layer0": "fabled:item/entropys_edge"
   }
 }
