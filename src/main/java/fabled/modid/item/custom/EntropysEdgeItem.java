@@ -38,34 +38,24 @@ public class EntropysEdgeItem extends SwordItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents,
-            TooltipFlag isAdvanced) {
-
+    public void appendHoverText(ItemStack stack, Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         tooltipComponents.add(Component.literal(" "));
 
-        tooltipComponents.add(Component.literal("\"They say the Void crushed the stars into this jagged form")
-                .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
-        tooltipComponents.add(Component.literal("It vibrates with a violent instability, held together not by steel,")
-                .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
-        tooltipComponents.add(Component.literal("but by the gravitational pull of its own destruction.\"")
-                .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("\"They say the Void crushed the stars into this jagged form").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("It vibrates with a violent instability, held together not by steel,").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
+        tooltipComponents.add(Component.literal("but by the gravitational pull of its own destruction.\"").withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC));
 
         tooltipComponents.add(Component.literal(""));
 
-        Component icon = Component.literal("\uE000")
-                .withStyle(style -> style.withFont(new ResourceLocation("fabled", "rightclickicons")));
+        Component icon = Component.literal("\uE000").withStyle(style -> style.withFont(new ResourceLocation("fabled", "rightclickicons")));
 
-        Component abilityName = Component.translatable("tooltip.fabled.entropys_edge.ability")
-                .withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD);
+        Component abilityName = Component.translatable("tooltip.fabled.entropys_edge.ability").withStyle(ChatFormatting.YELLOW, ChatFormatting.BOLD);
 
         tooltipComponents.add(Component.literal("").append(icon).append(abilityName));
 
-        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line2")
-                .withStyle(ChatFormatting.DARK_GRAY));
-        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line3")
-                .withStyle(ChatFormatting.DARK_GRAY));
-        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line4")
-                .withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line2").withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line3").withStyle(ChatFormatting.DARK_GRAY));
+        tooltipComponents.add(Component.translatable("tooltip.fabled.entropys_edge.line4").withStyle(ChatFormatting.DARK_GRAY));
 
         tooltipComponents.add(Component.literal(""));
 
@@ -73,9 +63,7 @@ public class EntropysEdgeItem extends SwordItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        ItemStack itemStack = player.getItemInHand(hand);
-
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {ItemStack itemStack = player.getItemInHand(hand);
         if (!level.isClientSide && hand == InteractionHand.MAIN_HAND) {
             Vec3 eyePosition = player.getEyePosition();
             Vec3 lookVector = player.getLookAngle();
@@ -109,8 +97,7 @@ public class EntropysEdgeItem extends SwordItem {
             player.fallDistance = 0.0f;
 
             // Play teleport sound
-            level.playSound(null, safePos.x, safePos.y, safePos.z,
-                    SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
+            level.playSound(null, safePos.x, safePos.y, safePos.z, SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1.0f, 1.0f);
 
             // Spawn particles
             if (level instanceof ServerLevel serverLevel) {
@@ -135,8 +122,7 @@ public class EntropysEdgeItem extends SwordItem {
     private Vec3 findSafePosition(Level level, Vec3 targetPos) {
         Vec3 feetPos = new Vec3(targetPos.x, targetPos.y - 1.62, targetPos.z);
 
-        BlockPos feetBlockPos = new BlockPos((int) Math.floor(feetPos.x), (int) Math.floor(feetPos.y),
-                (int) Math.floor(feetPos.z));
+        BlockPos feetBlockPos = new BlockPos((int) Math.floor(feetPos.x), (int) Math.floor(feetPos.y), (int) Math.floor(feetPos.z));
 
         if (isSafePosition(level, feetBlockPos)) {
             return feetPos;
@@ -183,8 +169,7 @@ public class EntropysEdgeItem extends SwordItem {
 
     private void createExplosion(Level level, Player player) {
         Vec3 center = player.position();
-        AABB area = new AABB(center.x - EXPLOSION_RADIUS, center.y - EXPLOSION_RADIUS, center.z - EXPLOSION_RADIUS,
-                center.x + EXPLOSION_RADIUS, center.y + EXPLOSION_RADIUS, center.z + EXPLOSION_RADIUS);
+        AABB area = new AABB(center.x - EXPLOSION_RADIUS, center.y - EXPLOSION_RADIUS, center.z - EXPLOSION_RADIUS, center.x + EXPLOSION_RADIUS, center.y + EXPLOSION_RADIUS, center.z + EXPLOSION_RADIUS);
 
         List<Entity> entities = level.getEntities(player, area);
 
@@ -202,8 +187,7 @@ public class EntropysEdgeItem extends SwordItem {
         }
 
         // Visual sound effects
-        level.playSound(null, center.x, center.y, center.z,
-                SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 2.0f, 0.8f);
+        level.playSound(null, center.x, center.y, center.z, SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 2.0f, 0.8f);
 
         if (level instanceof ServerLevel serverLevel) {
             spawnExplosionParticles(serverLevel, center.x, center.y, center.z);
