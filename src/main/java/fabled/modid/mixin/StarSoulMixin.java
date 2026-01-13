@@ -3,7 +3,11 @@ package fabled.modid.mixin;
 import fabled.modid.util.StarSoulWither;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.EntityType;
@@ -27,11 +31,20 @@ public class StarSoulMixin implements StarSoulWither {
     @Unique
     private int fabled$conversionTime = -1;
     @Unique
-    private boolean fabled$isSummoned = false;
+    private static final EntityDataAccessor<Boolean> FABLED_IS_SUMMONED = SynchedEntityData.defineId(WitherSkeleton.class, EntityDataSerializers.BOOLEAN);
+
+    @Inject(method = "defineSynchedData", at = @At("TAIL"))
+    private void fabled$defineData(CallbackInfo ci) {
+        if ((Object)this instanceof WitherSkeleton) {
+            ((Mob)(Object)this).getEntityData().define(FABLED_IS_SUMMONED, false);
+        }
+    }
 
     @Override
     public void fabled$startConversion(int time) {
         if (!((Object)this instanceof WitherSkeleton)) return;
+
+        if (this.fabled$isSummoned()) return;
 
         this.fabled$conversionTime = time;
         Mob self = (Mob)(Object)this;
@@ -49,13 +62,13 @@ public class StarSoulMixin implements StarSoulWither {
 
     @Override
     public boolean fabled$isSummoned() {
-        return ((Object)this instanceof WitherSkeleton) && this.fabled$isSummoned;
+        return ((Object)this instanceof WitherSkeleton) && ((Mob)(Object)this).getEntityData().get(FABLED_IS_SUMMONED);
     }
 
     @Override
     public void fabled$setSummoned(boolean summoned) {
         if ((Object)this instanceof WitherSkeleton) {
-            this.fabled$isSummoned = summoned;
+            ((Mob)(Object)this).getEntityData().set(FABLED_IS_SUMMONED, summoned);
         }
     }
 
@@ -131,8 +144,7 @@ public class StarSoulMixin implements StarSoulWither {
                     skeleton.getItemBySlot(EquipmentSlot.HEAD).enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
                     skeleton.getItemBySlot(EquipmentSlot.CHEST).enchant(Enchantments.ALL_DAMAGE_PROTECTION, 4);
 
-                    skeleton.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.GOLDEN_APPLE));
-                    skeleton.setDropChance(EquipmentSlot.OFFHAND, 1.0f);
+                    skeleton.addTag("DropSpecialItem");
                 }
 
                 level.addFreshEntity(skeleton);
@@ -140,12 +152,22 @@ public class StarSoulMixin implements StarSoulWither {
         }
     }
 
+    @Inject(method = "dropCustomDeathLoot", at = @At("RETURN"))
+    private void fabled$dropSpecialLoot(DamageSource source, int looting, boolean recentlyHit, CallbackInfo ci) {
+        if (!((Object)this instanceof WitherSkeleton)) return;
+
+        if (((Mob)(Object)this).getTags().contains("DropSpecialItem")) {
+            ((Mob)(Object)this).spawnAtLocation(Items.GOLDEN_APPLE);
+        }
+    }
+
+
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void fabled$saveData(CompoundTag compound, CallbackInfo ci) {
         if (!((Object)this instanceof WitherSkeleton)) return;
 
         compound.putInt("FabledConversionTime", this.fabled$conversionTime);
-        compound.putBoolean("FabledIsSummoned", this.fabled$isSummoned);
+        compound.putBoolean("FabledIsSummoned", this.fabled$isSummoned());
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -156,7 +178,7 @@ public class StarSoulMixin implements StarSoulWither {
             this.fabled$conversionTime = compound.getInt("FabledConversionTime");
         }
         if (compound.contains("FabledIsSummoned")) {
-            this.fabled$isSummoned = compound.getBoolean("FabledIsSummoned");
+            this.fabled$setSummoned(compound.getBoolean("FabledIsSummoned"));
         }
     }
 }
