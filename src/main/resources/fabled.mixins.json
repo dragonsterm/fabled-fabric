@@ -3,7 +3,9 @@
 	"package": "fabled.modid.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"ExampleMixin",
+		"StarSoulMixin",
+		"StarSoulShakeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
