@@ -4,6 +4,7 @@ import fabled.modid.Fabled;
 import fabled.modid.item.custom.EntropysEdgeItem;
 import fabled.modid.item.custom.StarSoulItem;
 import fabled.modid.item.custom.WitherHandleItem;
+import fabled.modid.item.custom.WitheredStarItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +21,9 @@ public class ModItems {
 
     public static final Item STAR_SOUL = registerItem("star_soul",
             new StarSoulItem(new FabricItemSettings().stacksTo(1)));
+
+    public static final Item WITHERED_STAR = registerItem("withered_star",
+            new WitheredStarItem(new FabricItemSettings().stacksTo(1)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, 

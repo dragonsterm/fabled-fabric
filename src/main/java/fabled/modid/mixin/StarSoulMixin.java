@@ -1,5 +1,6 @@
 package fabled.modid.mixin;
 
+import fabled.modid.item.ModItems;
 import fabled.modid.util.StarSoulWither;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -157,7 +158,7 @@ public class StarSoulMixin implements StarSoulWither {
         if (!((Object)this instanceof WitherSkeleton)) return;
 
         if (((Mob)(Object)this).getTags().contains("DropSpecialItem")) {
-            ((Mob)(Object)this).spawnAtLocation(Items.GOLDEN_APPLE);
+            ((Mob)(Object)this).spawnAtLocation(ModItems.WITHERED_STAR);
         }
     }
 

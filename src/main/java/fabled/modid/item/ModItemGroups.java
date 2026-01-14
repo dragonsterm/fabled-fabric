@@ -21,6 +21,7 @@ public class ModItemGroups {
                 entries.accept(ModItems.WITHER_HANDLE);
                 entries.accept(ModItems.ENTROPYS_EDGE);
                 entries.accept(ModItems.STAR_SOUL);
+                entries.accept(ModItems.WITHERED_STAR);
             })
             .build()
     );
