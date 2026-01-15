@@ -34,8 +34,8 @@ public class WitheredStarSummonMixin {
                     .aisle("^^^", "#@#", "~#~")
                     .where('^', BlockInWorld.hasState(BlockStatePredicate.forBlock(Blocks.WITHER_SKELETON_SKULL).or(BlockStatePredicate.forBlock(Blocks.WITHER_SKELETON_WALL_SKULL))))
                     .where('@', BlockInWorld.hasState(BlockStatePredicate.forBlock(ModBlocks.WITHERED_SOUL_BLOCK)))
-                    .where('#', BlockInWorld.hasState(state -> state.is(BlockTags.WITHER_SUMMON_BASE_BLOCKS))) // Matches Soul Sand or Soul Soil
-                    .where('~', BlockInWorld.hasState(state -> true)) // Matches Air or any block
+                    .where('#', BlockInWorld.hasState(state -> state.is(BlockTags.WITHER_SUMMON_BASE_BLOCKS)))
+                    .where('~', BlockInWorld.hasState(state -> true))
                     .build();
         }
         return fragmentedSingularityPattern;
