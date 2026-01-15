@@ -1,5 +1,6 @@
 package fabled.modid;
 
+import fabled.modid.util.WitheredStarLootTable;
 import net.fabricmc.api.ModInitializer;
 import fabled.modid.item.ModItems;
 import fabled.modid.block.ModBlocks;
@@ -29,5 +30,6 @@ public class Fabled implements ModInitializer {
 		ModItemGroups.registerItemGroups();
 
 		ModBlockEntities.registerBlockEntities();
+		WitheredStarLootTable.modifyLootTables();
 	}
 }

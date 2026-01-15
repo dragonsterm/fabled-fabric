@@ -6,7 +6,8 @@
 		"ExampleMixin",
 		"StarSoulMixin",
 		"StarSoulShakeMixin",
-		"StarSoulEndCrystalMixin"
+		"StarSoulEndCrystalMixin",
+		"WitheredStarSummonMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
