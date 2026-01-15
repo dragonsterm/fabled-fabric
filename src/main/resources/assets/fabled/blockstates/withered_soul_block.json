@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "soul_type=sand": { "model": "fabled:block/withered_soul_block" },
+    "soul_type=soil": { "model": "fabled:block/withered_soul_soil_block"}
+    }
+}

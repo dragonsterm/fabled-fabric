@@ -1,0 +1,41 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "fabled:withered_star"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:soul_sand",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "fabled:withered_soul_block",
+              "properties": { "soul_type": "sand" }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:soul_soil",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "fabled:withered_soul_block",
+              "properties": { "soul_type": "soil" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

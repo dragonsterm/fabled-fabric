@@ -1,6 +1,6 @@
-package fabled.modid;
+package fabled.modid.item;
 
-import fabled.modid.item.ModItems;
+import fabled.modid.Fabled;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

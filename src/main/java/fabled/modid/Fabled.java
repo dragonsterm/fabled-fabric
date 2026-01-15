@@ -2,6 +2,9 @@ package fabled.modid;
 
 import net.fabricmc.api.ModInitializer;
 import fabled.modid.item.ModItems;
+import fabled.modid.block.ModBlocks;
+import fabled.modid.item.ModItemGroups;
+import fabled.modid.block.entity.ModBlockEntities;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,9 @@ public class Fabled implements ModInitializer {
 
 		LOGGER.info("Hello Fabric world!");
 		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
 		ModItemGroups.registerItemGroups();
+
+		ModBlockEntities.registerBlockEntities();
 	}
 }
