@@ -43,7 +43,7 @@ public class WitheredStarItem extends Item {
             }
             if (!level.isClientSide()) {
                 level.setBlock(pos, ModBlocks.WITHERED_SOUL_BLOCK.defaultBlockState(), 3);
-                BlockState newState = ModBlocks.WITHERED_SOUL_BLOCK.defaultBlockState().setValue(WitheredSoulBlock.FACING, context.getHorizontalDirection().getOpposite());
+                BlockState newState = ModBlocks.WITHERED_SOUL_BLOCK.defaultBlockState().setValue(WitheredSoulBlock.FACING, context.getClickedFace());
                 if (state.is(Blocks.SOUL_SAND)) {
                     newState = newState.setValue(WitheredSoulBlock.SOUL_TYPE, WitheredSoulBlock.SoulType.SAND);
                 } else {

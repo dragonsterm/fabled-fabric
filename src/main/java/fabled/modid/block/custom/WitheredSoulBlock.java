@@ -3,6 +3,7 @@ package fabled.modid.block.custom;
 import fabled.modid.item.ModItems;
 import fabled.modid.block.entity.WitheredSoulBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.StringRepresentable;
@@ -40,11 +41,11 @@ public class WitheredSoulBlock extends Block implements EntityBlock {
         }
     }
     public static final EnumProperty<SoulType> SOUL_TYPE = EnumProperty.create("soul_type", SoulType.class);
-    public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public WitheredSoulBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(SOUL_TYPE, SoulType.SAND));
+        this.registerDefaultState(this.stateDefinition.any().setValue(SOUL_TYPE, SoulType.SAND).setValue(FACING, Direction.NORTH));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class WitheredSoulBlock extends Block implements EntityBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
     }
 
     @Override
