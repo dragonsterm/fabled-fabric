@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class WitheredSoulBlockEntityRenderer implements BlockEntityRenderer<WitheredSoulBlockEntity> {
     private final ItemRenderer itemRenderer;
+    private final ItemStack renderStack = new ItemStack(ModItems.WITHERED_STAR);
 
     public WitheredSoulBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
         this.itemRenderer = context.getItemRenderer();
@@ -41,7 +42,7 @@ public class WitheredSoulBlockEntityRenderer implements BlockEntityRenderer<With
 
         poseStack.scale(0.5f, 0.5f, 0.5f);
 
-        this.itemRenderer.renderStatic(new ItemStack(ModItems.WITHERED_STAR), ItemDisplayContext.FIXED, LightTexture.FULL_BRIGHT, packedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
+        this.itemRenderer.renderStatic(renderStack, ItemDisplayContext.FIXED, LightTexture.FULL_BRIGHT, packedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
         poseStack.popPose();
     }
 }
