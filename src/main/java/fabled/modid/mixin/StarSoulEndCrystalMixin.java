@@ -1,5 +1,7 @@
 package fabled.modid.mixin;
 
+import fabled.modid.entity.ModEntities;
+import fabled.modid.entity.custom.StarSoulRitualEntity;
 import fabled.modid.item.ModItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -22,20 +24,21 @@ public abstract class StarSoulEndCrystalMixin extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.is(Items.NETHER_STAR)) {
+        if (stack.is(Items.NETHER_STAR) || stack.is(ModItems.STAR_SOUL)) {
             Level level = this.level();
             if (!level.isClientSide) {
                 if (!player.isCreative()) {
                     stack.shrink(1);
                 }
 
-                level.explode(this, this.getX(), this.getY(), this.getZ(), 6.0f, Level.ExplosionInteraction.BLOCK);
+                StarSoulRitualEntity ritual = new StarSoulRitualEntity(ModEntities.STAR_SOUL_RITUAL, level);
+                ritual.setPos(this.getX(), this.getY(), this.getZ());
+                ritual.setOrigin(this.blockPosition());
 
-                ItemEntity starsoul = new ItemEntity(level, this.getX(), this.getY(), this.getZ(), new ItemStack(ModItems.STAR_SOUL));
-                starsoul.setDefaultPickUpDelay();
-                level.addFreshEntity(starsoul);
-
-                this.discard();
+                double angle = Math.atan2(player.getZ() - this.getZ(), player.getX() - this.getX());
+                ritual.setStartAngle((float) angle);
+                
+                level.addFreshEntity(ritual);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }

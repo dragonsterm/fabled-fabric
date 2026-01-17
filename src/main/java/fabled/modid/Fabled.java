@@ -4,6 +4,7 @@ import fabled.modid.util.WitheredStarLootTable;
 import net.fabricmc.api.ModInitializer;
 import fabled.modid.item.ModItems;
 import fabled.modid.block.ModBlocks;
+import fabled.modid.entity.ModEntities;
 import fabled.modid.item.ModItemGroups;
 import fabled.modid.block.entity.ModBlockEntities;
 
@@ -27,6 +28,7 @@ public class Fabled implements ModInitializer {
 		LOGGER.info("Hello Fabric world!");
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModEntities.registerModEntities();
 		ModItemGroups.registerItemGroups();
 
 		ModBlockEntities.registerBlockEntities();
