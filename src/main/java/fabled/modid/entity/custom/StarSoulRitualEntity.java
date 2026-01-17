@@ -83,9 +83,10 @@ public class StarSoulRitualEntity extends Entity {
         int totalDuration = circleDuration + riseDuration + dropDuration;
 
         if (!this.level().isClientSide) {
+            ServerLevel serverLevel = (ServerLevel) this.level();
             UUID uuid = getCrystalUUID();
             if (uuid != null) {
-                Entity crystal = ((ServerLevel) this.level()).getEntity(uuid);
+                Entity crystal = serverLevel.getEntity(uuid);
                 if (crystal == null || !crystal.isAlive()) {
                     this.level().explode(this, centerX, centerY, centerZ, 7.5f, Level.ExplosionInteraction.BLOCK);
 
@@ -105,7 +106,7 @@ public class StarSoulRitualEntity extends Entity {
                         double px = centerX + (this.random.nextDouble() - 0.5) * 15.0;
                         double py = centerY + (this.random.nextDouble() - 0.5) * 15.0;
                         double pz = centerZ + (this.random.nextDouble() - 0.5) * 15.0;
-                        ((ServerLevel) this.level()).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
+                        serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
                     }
                     this.discard();
                     return;
@@ -148,8 +149,6 @@ public class StarSoulRitualEntity extends Entity {
             this.setPos(centerX, currentY, centerZ);
         } else {
             if (!this.level().isClientSide) {
-                ServerLevel serverLevel = (ServerLevel) this.level();
-
                 this.level().explode(this, centerX, centerY, centerZ, 4.0f, Level.ExplosionInteraction.BLOCK);
 
                 BlockPos centerPos = BlockPos.containing(centerX, centerY, centerZ);
@@ -175,7 +174,7 @@ public class StarSoulRitualEntity extends Entity {
                     double px = centerX + (this.random.nextDouble() - 0.5) * 8.0;
                     double py = centerY + (this.random.nextDouble() - 0.5) * 8.0;
                     double pz = centerZ + (this.random.nextDouble() - 0.5) * 8.0;
-                    serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
+                    ((ServerLevel) this.level()).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
                 }
                 this.discard();
             }
