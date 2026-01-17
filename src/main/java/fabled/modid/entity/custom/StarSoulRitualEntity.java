@@ -17,6 +17,11 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -91,13 +96,26 @@ public class StarSoulRitualEntity extends Entity {
                     this.level().explode(this, centerX, centerY, centerZ, 7.5f, Level.ExplosionInteraction.BLOCK);
 
                     BlockPos centerPos = BlockPos.containing(centerX, centerY, centerZ);
+                    Vec3 centerVec = new Vec3(centerX, centerY, centerZ);
                     for (int x = -8; x <= 8; x++) {
                         for (int y = -8; y <= 8; y++) {
                             for (int z = -8; z <= 8; z++) {
                                 BlockPos pos = centerPos.offset(x, y, z);
-                                if (pos.distSqr(centerPos) <= 56.25 && this.level().getBlockState(pos).isAir() && this.level().getBlockState(pos.below()).isSolidRender(this.level(), pos.below()) && this.random.nextInt(3) == 0) {
-                                    this.level().setBlockAndUpdate(pos.below(), Blocks.SOUL_SOIL.defaultBlockState());
-                                    this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                if (pos.distSqr(centerPos) <= 56.25 && this.level().getBlockState(pos).isAir()) {
+                                    BlockPos belowPos = pos.below();
+                                    BlockState belowState = this.level().getBlockState(belowPos);
+                                    if (belowState.isSolidRender(this.level(), belowPos) && this.random.nextInt(3) == 0) {
+                                        Vec3 targetVec = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                                        BlockHitResult hitResult = this.level().clip(new ClipContext(centerVec, targetVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                                        if (hitResult.getType() == HitResult.Type.MISS) {
+                                            if (belowState.is(Blocks.BEDROCK) || belowState.is(Blocks.OBSIDIAN)) {
+                                                this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                            } else {
+                                                this.level().setBlockAndUpdate(belowPos, Blocks.SOUL_SOIL.defaultBlockState());
+                                                this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -152,13 +170,26 @@ public class StarSoulRitualEntity extends Entity {
                 this.level().explode(this, centerX, centerY, centerZ, 4.0f, Level.ExplosionInteraction.BLOCK);
 
                 BlockPos centerPos = BlockPos.containing(centerX, centerY, centerZ);
+                Vec3 centerVec = new Vec3(centerX, centerY, centerZ);
                 for (int x = -4; x <= 4; x++) {
                     for (int y = -4; y <= 4; y++) {
                         for (int z = -4; z <= 4; z++) {
                             BlockPos pos = centerPos.offset(x, y, z);
-                            if (pos.distSqr(centerPos) <= 16 && this.level().getBlockState(pos).isAir() && this.level().getBlockState(pos.below()).isSolidRender(this.level(), pos.below()) && this.random.nextInt(3) == 0) {
-                                this.level().setBlockAndUpdate(pos.below(), Blocks.SOUL_SOIL.defaultBlockState());
-                                this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                            if (pos.distSqr(centerPos) <= 16 && this.level().getBlockState(pos).isAir()) {
+                                BlockPos belowPos = pos.below();
+                                BlockState belowState = this.level().getBlockState(belowPos);
+                                if (belowState.isSolidRender(this.level(), belowPos) && this.random.nextInt(3) == 0) {
+                                    Vec3 targetVec = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+                                    BlockHitResult hitResult = this.level().clip(new ClipContext(centerVec, targetVec, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                                    if (hitResult.getType() == HitResult.Type.MISS) {
+                                        if (belowState.is(Blocks.BEDROCK) || belowState.is(Blocks.OBSIDIAN)) {
+                                            this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                        } else {
+                                            this.level().setBlockAndUpdate(belowPos, Blocks.SOUL_SOIL.defaultBlockState());
+                                            this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

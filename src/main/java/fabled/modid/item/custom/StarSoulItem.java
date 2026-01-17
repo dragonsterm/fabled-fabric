@@ -17,7 +17,7 @@ import java.util.List;
 
 public class StarSoulItem extends Item {
     public StarSoulItem(Properties properties) {
-        super(properties);
+        super(properties.fireResistant());
     }
 
     @Override
