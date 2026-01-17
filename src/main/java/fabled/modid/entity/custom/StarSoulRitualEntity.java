@@ -139,7 +139,7 @@ public class StarSoulRitualEntity extends Entity {
             double progress = (double) age / circleDuration;
             double angle = startAngle + (progress * Math.PI * 2);
 
-            double yOffset = 1.0 + Math.sin(age * 0.1) * 0.2;
+            double yOffset = Math.sin(age * 0.1) * 0.2;
 
             this.setPos(
                     centerX + Math.cos(angle) * radius,
@@ -149,7 +149,7 @@ public class StarSoulRitualEntity extends Entity {
         } else if (age < circleDuration + riseDuration) {
             double progress = (double) (age - circleDuration) / riseDuration;
             double radius = 2.0 * (1 - progress);
-            double currentY = (centerY + 1.0) + (2.5 * progress);
+            double currentY = centerY + (3.0 * progress);
 
             double angle = startAngle + (Math.PI * 2) + (progress * Math.PI);
 
@@ -160,8 +160,8 @@ public class StarSoulRitualEntity extends Entity {
             );
         } else if (age < totalDuration) {
             double progress = (double) (age - (circleDuration + riseDuration)) / dropDuration;
-            double startY = centerY + 3.5;
-            double endY = centerY + 0.5;
+            double startY = centerY + 3.0;
+            double endY = centerY;
             double currentY = startY + (endY - startY) * progress;
 
             this.setPos(centerX, currentY, centerZ);

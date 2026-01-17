@@ -24,7 +24,7 @@ public class StarSoulRitualRenderer  extends EntityRenderer<StarSoulRitualEntity
     public void render(StarSoulRitualEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
 
-        poseStack.translate(0.0, 1.25, 0.0);
+        poseStack.translate(0.0, 0.5, 0.0);
         poseStack.scale(2.0f, 2.0f, 2.0f);
         poseStack.mulPose(Axis.YP.rotationDegrees(entity.tickCount + partialTick * 4f));
 
