@@ -18,10 +18,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class StarSoulRitualEntity extends Entity {
     private static final EntityDataAccessor<Optional<BlockPos>> ORIGIN = SynchedEntityData.defineId(StarSoulRitualEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
     private static final EntityDataAccessor<Float> START_ANGLE = SynchedEntityData.defineId(StarSoulRitualEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Optional<UUID>> CRYSTAL_UUID = SynchedEntityData.defineId(StarSoulRitualEntity.class, EntityDataSerializers.OPTIONAL_UUID);
 
     public StarSoulRitualEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -44,10 +46,19 @@ public class StarSoulRitualEntity extends Entity {
         return this.entityData.get(START_ANGLE);
     }
 
+    public void setCrystalUUID(UUID uuid) {
+        this.entityData.set(CRYSTAL_UUID, Optional.of(uuid));
+    }
+
+    public UUID getCrystalUUID() {
+        return this.entityData.get(CRYSTAL_UUID).orElse(null);
+    }
+
     @Override
     protected void defineSynchedData() {
         this.entityData.define(ORIGIN, Optional.empty());
         this.entityData.define(START_ANGLE, 0.0f);
+        this.entityData.define(CRYSTAL_UUID, Optional.empty());
     }
 
     @Override
@@ -64,6 +75,20 @@ public class StarSoulRitualEntity extends Entity {
         int riseDuration = 20;
         int dropDuration = 10;
         int totalDuration = circleDuration + riseDuration + dropDuration;
+
+        // Check if the crystal is still alive
+        if (!this.level().isClientSide) {
+            UUID uuid = getCrystalUUID();
+            if (uuid != null) {
+                Entity crystal = ((ServerLevel) this.level()).getEntity(uuid);
+                // If crystal is null (unloaded/gone) or dead, punish the player
+                if (crystal == null || !crystal.isAlive()) {
+                    this.level().explode(this, centerX, centerY, centerZ, 10.0f, Level.ExplosionInteraction.BLOCK); // Larger explosion
+                    this.discard();
+                    return;
+                }
+            }
+        }
 
         float startAngle = getStartAngle();
 
@@ -127,6 +152,9 @@ public class StarSoulRitualEntity extends Entity {
         if (compound.contains("StartAngle")) {
             this.setStartAngle(compound.getFloat("StartAngle"));
         }
+        if (compound.contains("CrystalUUID")) {
+            this.setCrystalUUID(compound.getUUID("CrystalUUID"));
+        }
     }
 
     @Override
@@ -136,6 +164,9 @@ public class StarSoulRitualEntity extends Entity {
         compound.putInt("OriginY", origin.getY());
         compound.putInt("OriginZ", origin.getZ());
         compound.putFloat("StartAngle", getStartAngle());
+        if (getCrystalUUID() != null) {
+            compound.putUUID("CrystalUUID", getCrystalUUID());
+        }
     }
 
     @Override

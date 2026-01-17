@@ -2,13 +2,11 @@ package fabled.modid.mixin;
 
 import fabled.modid.entity.ModEntities;
 import fabled.modid.entity.custom.StarSoulRitualEntity;
-import fabled.modid.item.ModItems;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,7 +22,7 @@ public abstract class StarSoulEndCrystalMixin extends Entity {
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (stack.is(Items.NETHER_STAR) || stack.is(ModItems.STAR_SOUL)) {
+        if (stack.is(Items.NETHER_STAR)) {
             Level level = this.level();
             if (!level.isClientSide) {
                 if (!player.isCreative()) {
@@ -37,6 +35,7 @@ public abstract class StarSoulEndCrystalMixin extends Entity {
 
                 double angle = Math.atan2(player.getZ() - this.getZ(), player.getX() - this.getX());
                 ritual.setStartAngle((float) angle);
+                ritual.setCrystalUUID(this.getUUID());
                 
                 level.addFreshEntity(ritual);
             }
