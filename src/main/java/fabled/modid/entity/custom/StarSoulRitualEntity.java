@@ -16,6 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -62,12 +63,17 @@ public class StarSoulRitualEntity extends Entity {
     }
 
     @Override
+    public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        return false;
+    }
+
+    @Override
     public void tick() {
         super.tick();
 
         BlockPos origin = getOrigin();
         double centerX = origin.getX() + 0.5;
-        double centerY = origin.getY();
+        double centerY = origin.getY() + 0.5;
         double centerZ = origin.getZ() + 0.5;
 
         int age = this.tickCount;
@@ -76,14 +82,31 @@ public class StarSoulRitualEntity extends Entity {
         int dropDuration = 10;
         int totalDuration = circleDuration + riseDuration + dropDuration;
 
-        // Check if the crystal is still alive
         if (!this.level().isClientSide) {
             UUID uuid = getCrystalUUID();
             if (uuid != null) {
                 Entity crystal = ((ServerLevel) this.level()).getEntity(uuid);
-                // If crystal is null (unloaded/gone) or dead, punish the player
                 if (crystal == null || !crystal.isAlive()) {
-                    this.level().explode(this, centerX, centerY, centerZ, 10.0f, Level.ExplosionInteraction.BLOCK); // Larger explosion
+                    this.level().explode(this, centerX, centerY, centerZ, 7.5f, Level.ExplosionInteraction.BLOCK);
+
+                    BlockPos centerPos = BlockPos.containing(centerX, centerY, centerZ);
+                    for (int x = -8; x <= 8; x++) {
+                        for (int y = -8; y <= 8; y++) {
+                            for (int z = -8; z <= 8; z++) {
+                                BlockPos pos = centerPos.offset(x, y, z);
+                                if (pos.distSqr(centerPos) <= 56.25 && this.level().getBlockState(pos).isAir() && this.level().getBlockState(pos.below()).isSolidRender(this.level(), pos.below()) && this.random.nextInt(3) == 0) {
+                                    this.level().setBlockAndUpdate(pos.below(), Blocks.SOUL_SOIL.defaultBlockState());
+                                    this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                                }
+                            }
+                        }
+                    }
+                    for (int i = 0; i < 40; i++) {
+                        double px = centerX + (this.random.nextDouble() - 0.5) * 15.0;
+                        double py = centerY + (this.random.nextDouble() - 0.5) * 15.0;
+                        double pz = centerZ + (this.random.nextDouble() - 0.5) * 15.0;
+                        ((ServerLevel) this.level()).sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
+                    }
                     this.discard();
                     return;
                 }
@@ -127,17 +150,32 @@ public class StarSoulRitualEntity extends Entity {
             if (!this.level().isClientSide) {
                 ServerLevel serverLevel = (ServerLevel) this.level();
 
-                this.level().explode(this, centerX, centerY, centerZ, 6.0f, Level.ExplosionInteraction.BLOCK);
+                this.level().explode(this, centerX, centerY, centerZ, 4.0f, Level.ExplosionInteraction.BLOCK);
+
+                BlockPos centerPos = BlockPos.containing(centerX, centerY, centerZ);
+                for (int x = -4; x <= 4; x++) {
+                    for (int y = -4; y <= 4; y++) {
+                        for (int z = -4; z <= 4; z++) {
+                            BlockPos pos = centerPos.offset(x, y, z);
+                            if (pos.distSqr(centerPos) <= 16 && this.level().getBlockState(pos).isAir() && this.level().getBlockState(pos.below()).isSolidRender(this.level(), pos.below()) && this.random.nextInt(3) == 0) {
+                                this.level().setBlockAndUpdate(pos.below(), Blocks.SOUL_SOIL.defaultBlockState());
+                                this.level().setBlockAndUpdate(pos, Blocks.SOUL_FIRE.defaultBlockState());
+                            }
+                        }
+                    }
+                }
+
                 ItemEntity starSoul = new ItemEntity(this.level(), centerX, centerY, centerZ, new ItemStack(ModItems.STAR_SOUL));
 
                 starSoul.setDefaultPickUpDelay();
+                starSoul.setInvulnerable(true);
                 this.level().addFreshEntity(starSoul);
 
                 for (int i = 0; i < 20; i++) {
-                    double px = centerX + (this.random.nextDouble() - 0.5) * 2.0;
-                    double py = centerY + (this.random.nextDouble() - 0.5) * 2.0;
-                    double pz = centerZ + (this.random.nextDouble() - 0.5) * 2.0;
-                    serverLevel.sendParticles(ParticleTypes.FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
+                    double px = centerX + (this.random.nextDouble() - 0.5) * 8.0;
+                    double py = centerY + (this.random.nextDouble() - 0.5) * 8.0;
+                    double pz = centerZ + (this.random.nextDouble() - 0.5) * 8.0;
+                    serverLevel.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, px, py, pz, 1, 0, 0, 0, 0.1);
                 }
                 this.discard();
             }

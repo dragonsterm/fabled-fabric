@@ -14,11 +14,11 @@
 
 Fabled is currently in early development. This mod aims to bring powerful and fun weapons to minecraft.
 
-**⚠️ Work in Progress** - No official release yet!
+**Work in Progress** - No official release yet!
 
 ---
 
-## 📦 Available For
+## Available For
 
 <div align="center">
 
@@ -31,13 +31,13 @@ Fabled is currently in early development. This mod aims to bring powerful and fu
 ---
 
 
-## 🛠️ Development Status
+## Development Status
 
 This mod is currently under active development. Features, balance, and mechanics are subject to change.
 
 ---
 
-## 📜 License
+## License
 
 - **Code**: MIT License
 - **Assets**: All Rights Reserved
@@ -46,7 +46,7 @@ See [LICENSE](LICENSE) for more details.
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions, issues, and feature requests are welcome once the mod reaches its first release!
 
@@ -54,6 +54,6 @@ Contributions, issues, and feature requests are welcome once the mod reaches its
 
 <div align="center">
 
-**Made with ❤️ for the Minecraft modding community**
+**Made with love and passion for the Minecraft modding community**
 
 </div>
