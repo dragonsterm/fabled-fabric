@@ -9,6 +9,7 @@ Copyright (c) 2026 Fabled Mod Team
 This license applies to any files under the following directories:
 
 - ./src/main/resources/assets/fabled/
+- github/asset/
 
 All graphical assets, textures, models, sounds, and other creative works in the assets directory are proprietary and may not be redistributed or used in other projects without explicit permission.
 
