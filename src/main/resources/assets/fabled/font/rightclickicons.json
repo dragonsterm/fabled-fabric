@@ -3,8 +3,8 @@
     {
       "type": "bitmap",
       "file": "fabled:font/rightclick.png",
-      "ascent": 10,
-      "height": 10,
+      "ascent": 9,
+      "height": 9,
       "chars": [
         "\uE000"
       ]
