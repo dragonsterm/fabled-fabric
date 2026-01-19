@@ -1,10 +1,10 @@
 <div align="center">
 
-# Fabled
+![Fabled](github/asset/FabledTitlerunreleased.png)
 
 ![Fabric](https://img.shields.io/badge/Fabric-1.20.1-dbd0b4?style=flat-square)
 ![Status](https://img.shields.io/badge/Status-Work%20in%20Progress-yellow?style=flat-square)
-![License](https://img.shields.io/badge/License-Asset-blue?style=flat-square)
+![License](https://img.shields.io/badge/License-Asset_and_MIT-blue?style=flat-square)
 </div>
 
 ---
