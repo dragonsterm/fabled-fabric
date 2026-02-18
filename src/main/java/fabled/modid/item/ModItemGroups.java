@@ -22,8 +22,6 @@ public class ModItemGroups {
                 entries.accept(ModItems.ENTROPYS_EDGE);
                 entries.accept(ModItems.STAR_SOUL);
                 entries.accept(ModItems.WITHERED_STAR);
-                entries.accept(ModItems.FIRE_KATANA);
-                entries.accept(ModItems.ICE_KATANA);
             })
             .build()
     );

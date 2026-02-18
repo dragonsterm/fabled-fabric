@@ -2,8 +2,6 @@ package fabled.modid.item;
 
 import fabled.modid.Fabled;
 import fabled.modid.item.custom.EntropysEdgeItem;
-import fabled.modid.item.custom.FireKatanaItem;
-import fabled.modid.item.custom.IceKatanaItem;
 import fabled.modid.item.custom.StarSoulItem;
 import fabled.modid.item.custom.WitherHandleItem;
 import fabled.modid.item.custom.WitheredStarItem;
@@ -26,12 +24,6 @@ public class ModItems {
 
     public static final Item WITHERED_STAR = registerItem("withered_star",
             new WitheredStarItem(new FabricItemSettings().stacksTo(1)));
-
-    public static final Item FIRE_KATANA = registerItem("fire_katana",
-            new FireKatanaItem(new FabricItemSettings().stacksTo(1)));
-
-    public static final Item ICE_KATANA = registerItem("ice_katana",
-            new IceKatanaItem(new FabricItemSettings().stacksTo(1)));
 
     private static Item registerItem(String name, Item item) {
         return Registry.register(BuiltInRegistries.ITEM, 
