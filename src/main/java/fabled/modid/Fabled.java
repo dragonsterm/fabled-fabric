@@ -4,6 +4,7 @@ import fabled.modid.util.WitheredStarLootTable;
 import net.fabricmc.api.ModInitializer;
 import fabled.modid.item.ModItems;
 import fabled.modid.block.ModBlocks;
+import fabled.modid.effect.ModEffects;
 import fabled.modid.entity.ModEntities;
 import fabled.modid.item.ModItemGroups;
 import fabled.modid.block.entity.ModBlockEntities;
@@ -30,8 +31,12 @@ public class Fabled implements ModInitializer {
 		ModBlocks.registerModBlocks();
 		ModEntities.registerModEntities();
 		ModItemGroups.registerItemGroups();
+		ModEffects.registerEffects();
 
 		ModBlockEntities.registerBlockEntities();
 		WitheredStarLootTable.modifyLootTables();
+
+		// Register Dual Katana Handler untuk dual wield attack system
+		fabled.modid.item.custom.DualKatanaHandler.register();
 	}
 }
